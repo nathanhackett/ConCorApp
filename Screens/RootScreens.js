@@ -9,7 +9,7 @@ const rootStack = createStackNavigator();
 
 const RootScreens = ({ navigation }) => (
   <rootStack.Navigator screenOptions={{ headerShown: false }}>
-    <rootStack.Screen name="Landing" component={Landing} />
+    {/* <rootStack.Screen name="Landing" component={Landing} /> */}
     <rootStack.Screen name="SignIn" component={SignInScreen} />
     <rootStack.Screen name="SignUp" component={SignUpScreen} />
   </rootStack.Navigator>
