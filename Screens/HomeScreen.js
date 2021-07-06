@@ -1,26 +1,42 @@
-import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 
-function HomeScreen() {
-  let x = 1;
+const HomeScreen = ({ navigation }) => {
   console.log("App executed");
-  
+
   return (
     <View style={styles.container}>
-      <Text>Hello world!</Text>
-      <StatusBar style="auto" />
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={{ marginTop: 50 }}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.inputTextBlack}>Back</Text>
+        </TouchableOpacity>
+        <Text>Hello world!</Text>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  header: {
+    flex: 1,
   },
 });
 

@@ -3,9 +3,9 @@ import React from "react";
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,47 +23,16 @@ const SignUpScreen = ({ navigation }) => {
           <Text style={styles.inputTextBlack}>Back</Text>
         </TouchableOpacity>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Create Profile</Text>
-          <Ionicons
-            style={styles.profileImage}
-            name="person-outline"
-            size={100}
-            color="gray"
-          ></Ionicons>
-          <View>
-            <TouchableOpacity>
-              <Ionicons
-                style={styles.addCircleOutline}
-                name="add-circle-outline"
-                size={50}
-                color="black"
-              ></Ionicons>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.headerText}>Forgot Password</Text>
         </View>
-        <View style={{ marginTop: -20 }}>
-          <TextInput
-            placeholder="Name"
-            style={styles.textInput}
-            autoCapitalize="none"
-          ></TextInput>
+        <View style={{ marginTop: 20 }}>
           <TextInput
             placeholder="Email"
             style={styles.textInput}
             autoCapitalize="none"
           ></TextInput>
-          <TextInput
-            placeholder="Password"
-            style={styles.textInput}
-            autoCapitalize="none"
-          ></TextInput>
-          <TextInput
-            placeholder="Confirm Password"
-            style={styles.textInput}
-            autoCapitalize="none"
-          ></TextInput>
           <TouchableOpacity style={styles.defaultButton}>
-            <Text style={styles.inputTextWhite}>Sign Up</Text>
+            <Text style={styles.inputTextWhite}>Submit</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -75,7 +44,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",
     padding: 40,
   },
 
