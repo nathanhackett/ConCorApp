@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { useRef, Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
+
 import { SocialIcon } from "react-native-elements/dist/social/SocialIcon";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";

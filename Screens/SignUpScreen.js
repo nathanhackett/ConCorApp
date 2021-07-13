@@ -1,48 +1,76 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   StyleSheet,
   Text,
   TextInput,
   View,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
+import { Input } from "react-native-elements";
+import { auth } from "../firebase";
 
 const SignUpScreen = ({ navigation }) => {
   console.log("App executed");
 
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    //confirmPassword: "",
+  });
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+
+  //   })
+  // }, [navigation]);
+
+  const signUp = () => {
+    auth
+      .createUserWithEmailAndPassword(state.email, state.password)
+      .then((authUser) => {
+        authUser.user.update({
+          displayName: state.name,
+        });
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={{ marginTop: 20 }}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.inputTextBlack}>Back</Text>
-        </TouchableOpacity>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Create Profile</Text>
-          <Ionicons
-            style={styles.profileImage}
-            name="person-outline"
-            size={100}
-            color="gray"
-          ></Ionicons>
-          <View>
-            <TouchableOpacity>
-              <Ionicons
-                style={styles.addCircleOutline}
-                name="add-circle-outline"
-                size={50}
-                color="black"
-              ></Ionicons>
-            </TouchableOpacity>
-          </View>
+    // <ScrollView>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <TouchableOpacity
+        style={{ marginTop: 20 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.inputTextBlack}>Back</Text>
+      </TouchableOpacity>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Create Profile</Text>
+        <Ionicons
+          style={styles.profileImage}
+          name="person-outline"
+          size={100}
+          color="gray"
+        ></Ionicons>
+        <View>
+          <TouchableOpacity>
+            <Ionicons
+              style={styles.addCircleOutline}
+              name="add-circle-outline"
+              size={50}
+              color="black"
+            ></Ionicons>
+          </TouchableOpacity>
         </View>
-        <View style={{ marginTop: -20 }}>
-          <TextInput
+      </View>
+      <View style={styles.textInput}>
+        {/* <TextInput
             placeholder="Name"
             style={styles.textInput}
             autoCapitalize="none"
@@ -51,35 +79,71 @@ const SignUpScreen = ({ navigation }) => {
             placeholder="Email"
             style={styles.textInput}
             autoCapitalize="none"
+            onChangeText={(value) => setState({ ...state, email: value })}
           ></TextInput>
           <TextInput
             placeholder="Password"
             style={styles.textInput}
+            secureTextEntry
             autoCapitalize="none"
           ></TextInput>
           <TextInput
             placeholder="Confirm Password"
             style={styles.textInput}
             autoCapitalize="none"
-          ></TextInput>
-          <TouchableOpacity style={styles.defaultButton}>
-            <Text style={styles.inputTextWhite}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+          ></TextInput> */}
+
+        <Input
+          placeholder="Name"
+          autoFocus
+          value={state.name}
+          onChangeText={(value) => setState({ ...state, name: value })}
+        ></Input>
+        <Input
+          placeholder="Email"
+          autoFocus
+          type="email"
+          value={state.email}
+          onChangeText={(value) => setState({ ...state, email: value })}
+        ></Input>
+        <Input
+          placeholder="Password"
+          autoFocus
+          secureTextEntry
+          type="password"
+          value={state.password}
+          onChangeText={(value) => setState({ ...state, password: value })}
+        ></Input>
+        {/* <Input
+          placeholder="Confirm Password"
+          autoFocus
+          secureTextEntry
+          type="password"
+          value={state.confirmPassword}
+          onChangeText={(value) =>
+            setState({ ...state, confirmPassword: value })
+          }
+        ></Input> */}
       </View>
-    </ScrollView>
+      <TouchableOpacity style={styles.defaultButton}>
+        <Text style={styles.inputTextWhite}>Sign Up</Text>
+      </TouchableOpacity>
+      <View style={{ height: 50 }}></View>
+    </KeyboardAvoidingView>
+    // </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    alignItems: "center",
     justifyContent: "center",
     padding: 40,
+    backgroundColor: "#fff",
   },
-
   defaultButton: {
+    width: 300,
     marginTop: 15,
     alignItems: "center",
     backgroundColor: "#33C759",
@@ -128,10 +192,8 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    marginTop: 15,
+    width: 300,
     alignItems: "flex-start",
-    borderBottomColor: "#ABABAB",
-    borderBottomWidth: 1,
   },
 });
 

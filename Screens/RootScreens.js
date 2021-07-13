@@ -7,16 +7,16 @@ import ForgotPassword from "./ForgotPassword";
 import SignUpScreen from "./SignUpScreen";
 import HomeScreen from "./HomeScreen";
 
-const rootStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const RootScreens = ({ navigation }) => (
-  <rootStack.Navigator screenOptions={{ headerShown: false }}>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     {/* <rootStack.Screen name="Landing" component={Landing} /> */}
-    <rootStack.Screen name="SignIn" component={SignInScreen} />
-    <rootStack.Screen name="ForgotPassword" component={ForgotPassword} />
-    <rootStack.Screen name="SignUp" component={SignUpScreen} />
-    <rootStack.Screen name="HomeScreen" component={HomeScreen} />
-  </rootStack.Navigator>
+    <Stack.Screen name="SignIn" component={SignInScreen} />
+    <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    <Stack.Screen name="SignUp" component={SignUpScreen} />
+    <Stack.Screen name="HomeScreen" component={HomeScreen} />
+  </Stack.Navigator>
 );
 
 export default RootScreens;
