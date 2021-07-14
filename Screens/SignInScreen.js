@@ -9,80 +9,128 @@ import {
   TextInput,
   Dimensions,
   Animated,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
 } from "react-native";
-
+import { Input } from "react-native-elements";
 import { SocialIcon } from "react-native-elements/dist/social/SocialIcon";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { ScrollView } from "react-native-gesture-handler";
+import { auth } from "../firebase";
 
-class SignInScreen extends React.Component {
-  state = {
-    fadeAnim: new Animated.Value(0),
+const SignInScreen = ({ navigation }) => {
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log(authUser);
+      if (authUser) {
+        navigation.replace("HomeScreen");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const signIn = () => {
+    auth
+      .signInWithEmailAndPassword(state.email, state.password)
+      .catch((error) => alert(error));
   };
 
-  componentDidMount() {
-    Animated.spring(this.state.fadeAnim, {
-      toValue: 1,
-      tension: 10,
-      friction: 2,
-      duration: 3000,
-      useNativeDriver: false,
-    }).start();
-  }
+  // state = {
+  //   fadeAnim: new Animated.Value(0),
+  // };
 
-  render() {
-    return (
+  // componentDidMount() {
+  //   Animated.spring(this.state.fadeAnim, {
+  //     toValue: 1,
+  //     tension: 10,
+  //     friction: 2,
+  //     duration: 3000,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }
+
+  // render() {
+  return (
+    <SafeAreaView>
       <ScrollView>
-        <View style={styles.container}>
-          <Animated.View
-            style={[
-              styles.header,
-              {
-                opacity: this.state.fadeAnim,
-                top: this.state.fadeAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [100, 0],
-                }),
-              },
-            ]}
-          >
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          {/* <View style={styles.container}> */}
+          {/* <Animated.View
+          style={[
+            styles.header,
+            {
+              opacity: this.state.fadeAnim,
+              top: this.state.fadeAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [100, 0],
+              }),
+            },
+          ]}
+        >
+          <Image
+            style={{ resizeMode: "center" }}
+            source={require("../assets/Logo.png")}
+          />
+        </Animated.View> */}
+          <View style={styles.header}>
             <Image
-              style={{ resizeMode: "center" }}
+              style={{ resizeMode: "center", position: "relative" }}
               source={require("../assets/Logo.png")}
             />
-          </Animated.View>
+          </View>
           <View>
             <Text style={styles.headerText}>Sign In</Text>
             <View style={{ marginTop: 15 }}>
-              <View style={styles.textInput}>
-                <TextInput
-                  style={{ width: "100%" }}
-                  placeholder="Email"
-                  autoCapitalize="none"
-                ></TextInput>
-                <Ionicons
-                  style={{ alignItems: "flex-start" }}
-                  name="md-checkmark"
-                  color="#33C759"
-                  size={20}
-                ></Ionicons>
-              </View>
-              <View style={styles.textInput}>
-                <TextInput
-                  style={{ width: "100%" }}
-                  placeholder="Password"
-                  autoCapitalize="none"
-                ></TextInput>
-                <Ionicons
-                  name="md-checkmark"
-                  color="#33C759"
-                  size={20}
-                ></Ionicons>
-              </View>
+              {/* <View style={styles.textInput}>
+              <TextInput
+                style={{ width: "100%" }}
+                placeholder="Email"
+                autoCapitalize="none"
+              ></TextInput>
+              <Ionicons
+                style={{ alignItems: "flex-start" }}
+                name="md-checkmark"
+                color="#33C759"
+                size={20}
+              ></Ionicons>
+            </View>
+            <View style={styles.textInput}>
+              <TextInput
+                style={{ width: "100%" }}
+                placeholder="Password"
+                autoCapitalize="none"
+              ></TextInput>
+              <Ionicons
+                name="md-checkmark"
+                color="#33C759"
+                size={20}
+              ></Ionicons>
+            </View> */}
+              <Input
+                placeholder="Email"
+                autoFocus
+                type="email"
+                value={state.email}
+                onChangeText={(value) => setState({ ...state, email: value })}
+              ></Input>
+              <Input
+                placeholder="Password"
+                autoFocus
+                secureTextEntry
+                type="password"
+                value={state.password}
+                onChangeText={(value) =>
+                  setState({ ...state, password: value })
+                }
+              ></Input>
               <Text
                 style={{ marginTop: 5, color: "#525252", fontWeight: "bold" }}
                 onPress={() => {
-                  this.props.navigation.navigate("ForgotPassword");
+                  navigation.navigate("ForgotPassword");
                 }}
               >
                 Forgot Password?
@@ -92,12 +140,12 @@ class SignInScreen extends React.Component {
               <TouchableOpacity
                 style={styles.defaultButton}
                 onPress={() => {
-                  this.props.navigation.push("HomeScreen");
+                  navigation.push("HomeScreen");
                 }}
               >
                 <Text style={styles.inputTextWhite}>DEV Home</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.defaultButton}>
+              <TouchableOpacity style={styles.defaultButton} onPress={signIn}>
                 <Text style={styles.inputTextWhite}>Sign In</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{ marginTop: 20 }}>
@@ -131,24 +179,26 @@ class SignInScreen extends React.Component {
               <TouchableOpacity
                 style={styles.defaultButton}
                 onPress={() => {
-                  this.props.navigation.push("SignUp");
+                  navigation.push("SignUp");
                 }}
               >
                 <Text style={styles.inputTextWhite}>Sign Up</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+          {/* </View> */}
+        </KeyboardAvoidingView>
       </ScrollView>
-    );
-  }
-}
+    </SafeAreaView>
+  );
+  // }
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     padding: 40,
+    backgroundColor: "#fff",
   },
 
   defaultButton: {

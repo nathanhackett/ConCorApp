@@ -8,9 +8,16 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { auth } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
   console.log("App executed");
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      navigation.replace("SignIn");
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -20,6 +27,14 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
         >
           <Text style={styles.inputTextBlack}>Back</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ marginTop: 50 }}
+          // onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.inputTextBlack} onPress={signOut}>
+            Logout
+          </Text>
         </TouchableOpacity>
         <Text>Hello world!</Text>
       </View>
