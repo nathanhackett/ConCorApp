@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
 import React, { useState, useLayoutEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   StyleSheet,
   Text,
@@ -34,7 +33,7 @@ const SignUpScreen = ({ navigation }) => {
     auth
       .createUserWithEmailAndPassword(state.email, state.password)
       .then((authUser) => {
-        authUser.user.update({
+        authUser.user.updateProfile({
           displayName: state.name,
         });
       })
@@ -46,7 +45,7 @@ const SignUpScreen = ({ navigation }) => {
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableOpacity
         style={{ marginTop: 20 }}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.popToTop()}
       >
         <Text style={styles.inputTextBlack}>Back</Text>
       </TouchableOpacity>
@@ -70,29 +69,6 @@ const SignUpScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.textInput}>
-        {/* <TextInput
-            placeholder="Name"
-            style={styles.textInput}
-            autoCapitalize="none"
-          ></TextInput>
-          <TextInput
-            placeholder="Email"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={(value) => setState({ ...state, email: value })}
-          ></TextInput>
-          <TextInput
-            placeholder="Password"
-            style={styles.textInput}
-            secureTextEntry
-            autoCapitalize="none"
-          ></TextInput>
-          <TextInput
-            placeholder="Confirm Password"
-            style={styles.textInput}
-            autoCapitalize="none"
-          ></TextInput> */}
-
         <Input
           placeholder="Name"
           autoFocus
@@ -114,18 +90,8 @@ const SignUpScreen = ({ navigation }) => {
           value={state.password}
           onChangeText={(value) => setState({ ...state, password: value })}
         ></Input>
-        {/* <Input
-          placeholder="Confirm Password"
-          autoFocus
-          secureTextEntry
-          type="password"
-          value={state.confirmPassword}
-          onChangeText={(value) =>
-            setState({ ...state, confirmPassword: value })
-          }
-        ></Input> */}
       </View>
-      <TouchableOpacity style={styles.defaultButton}>
+      <TouchableOpacity style={styles.defaultButton} onPress={signUp}>
         <Text style={styles.inputTextWhite}>Sign Up</Text>
       </TouchableOpacity>
       <View style={{ height: 50 }}></View>
